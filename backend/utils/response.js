@@ -27,3 +27,8 @@ export const successResponse = (data, message = 'Success', meta = null) => {
   
     return response;
   };
+
+// Not found response
+export const notFoundResponse = (resource = 'Resource') => {
+    return errorResponse(`${resource} not found`, null, 404);
+  };

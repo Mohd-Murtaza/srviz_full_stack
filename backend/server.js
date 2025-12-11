@@ -12,12 +12,19 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Import utils
+import { errorResponse } from './utils/response.js';
 // Import routes
 import healthRoutes from './routes/health.routes.js';
-import { errorResponse } from './utils/response.js';
+import eventRoutes from './routes/event.routes.js';
+import dbConnect from './config/db.js';
+
+// Connect to database
+await dbConnect();
 
 // Routes
 app.use('/api/health', healthRoutes);
+app.use('/api/events', eventRoutes);
 
 // 404 error handler
 app.use((req, res) => {
