@@ -1,6 +1,8 @@
 import Lead from '../models/lead.model.js';
 import EmailVerification from '../models/emailVerification.model.js';
 import { errorResponse, successResponse, validationErrorResponse } from '../utils/response.js';
+import { PAGINATION, LEAD_STATUS } from '../config/constants.js';
+import { createStatusHistory, isValidStatusTransition } from '../services/leadWorkflow.service.js';
 
 // Create a new lead
 export const createLead = async (req, res) => {

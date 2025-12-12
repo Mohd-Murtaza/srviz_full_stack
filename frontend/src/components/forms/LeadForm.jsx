@@ -73,6 +73,7 @@ const LeadForm = ({ events = [], selectedEvent = null, selectedPackage = null, o
         // If backend indicates already verified, mark verified
         const alreadyVerified = (resp.message && resp.message.toLowerCase().includes('already verified')) || (resp.data && String(resp.data).toLowerCase().includes('already verified'));
         if (alreadyVerified) {
+          setErrors((prev) => ({ ...prev, email: '' }));
           setEmailVerified(true);
           toast.success('Email is already verified');
         } else {
