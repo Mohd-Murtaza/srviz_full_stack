@@ -2,12 +2,14 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import './App.css'
 import LandingPage from './pages/LandingPage';
 import EventDetails from './pages/EventDetails';
+import Toast from './components/ui/Toast';
 
 function App() {
 
   return (
     <>
       <Router>
+      <Toast/>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />

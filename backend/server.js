@@ -17,6 +17,8 @@ import { errorResponse } from './utils/response.js';
 // Import routes
 import healthRoutes from './routes/health.routes.js';
 import eventRoutes from './routes/event.routes.js';
+import leadRoutes from './routes/lead.routes.js';
+import emailVerificationRoutes from './routes/emailVerification.routes.js';
 import dbConnect from './config/db.js';
 
 // Connect to database
@@ -25,6 +27,8 @@ await dbConnect();
 // Routes
 app.use('/api/health', healthRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/leads', leadRoutes);
+app.use('/api/verify-email', emailVerificationRoutes);
 
 // 404 error handler
 app.use((req, res) => {

@@ -32,3 +32,8 @@ export const successResponse = (data, message = 'Success', meta = null) => {
 export const notFoundResponse = (resource = 'Resource') => {
     return errorResponse(`${resource} not found`, null, 404);
   };
+
+// Validation Error response
+export const validationErrorResponse = (errors) => {
+    return errorResponse('Validation failed', errors, 400);
+  };
