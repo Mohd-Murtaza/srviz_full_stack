@@ -155,7 +155,23 @@ const LeadForm = ({ events = [], selectedEvent = null, selectedPackage = null, o
       }
     } catch (error) {
       console.error('Error submitting lead:', error);
-      toast.error(error.message || 'Failed to submit form. Please try again.');
+      // Extract error message from response
+      const errorMessage = error.response?.data?.message 
+        || error.response?.data?.error 
+        || error.message 
+        || 'Failed to submit form. Please try again.';
+      
+      // Show appropriate toast based on status code
+      if (error.response?.status === 429) {
+        // Rate limit or cooldown error
+        toast.error(errorMessage, { duration: 5000 });
+      } else if (error.response?.status === 400) {
+        // Validation or duplicate error
+        toast.error(errorMessage, { duration: 5000 });
+      } else {
+        // Generic error
+        toast.error(errorMessage);
+      }
     } finally {
       setIsSubmitting(false);
     }

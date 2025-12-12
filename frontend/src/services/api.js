@@ -32,6 +32,10 @@ export const leadsAPI = {
     updateStatus: (id, data) => api.patch(`/leads/${id}`, data),
 };
 
+export const quotesAPI = {
+    generate: (data) => api.post('/quotes/generate', data),
+};
+
 export const healthAPI = {
   check: () => api.get('/health'),
 };

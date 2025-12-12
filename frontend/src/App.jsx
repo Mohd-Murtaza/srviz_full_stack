@@ -1,11 +1,13 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import './App.css'
+import { AuthProvider } from './contexts/AuthContext';
+import Toast from './components/ui/Toast';
 import LandingPage from './pages/LandingPage';
 import EventDetails from './pages/EventDetails';
-import Toast from './components/ui/Toast';
 import AdminLogin from './components/admin/AdminLogin';
 import DashboardLayout from './components/admin/DashboardLayout';
-import { AuthProvider } from './contexts/AuthContext';
+import DashboardOverview from './pages/DashboardOverview';
+import LeadsManagement from './pages/LeadsManagement';
+import QuoteGeneration from './pages/QuoteGeneration';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 
 function App() {
@@ -29,6 +31,9 @@ function App() {
               </ProtectedRoute>
             }
           >
+            <Route path="dashboard" element={<DashboardOverview />} />
+            <Route path="leads" element={<LeadsManagement />} />
+            <Route path="quotes" element={<QuoteGeneration />} />
             <Route index element={<Navigate to="/admin/dashboard" replace />} />
           </Route>
 
