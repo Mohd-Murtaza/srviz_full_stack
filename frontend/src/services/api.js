@@ -25,6 +25,12 @@ export const eventsAPI = {
   getById: (id) => api.get(`/events/${id}`),
 };
 
+export const leadsAPI = {
+    create: (data) => api.post('/leads', data),
+    getAll: (params) => api.get('/leads', { params }),
+    getById: (id) => api.get(`/leads/${id}`),
+    updateStatus: (id, data) => api.patch(`/leads/${id}`, data),
+};
 
 export const healthAPI = {
   check: () => api.get('/health'),

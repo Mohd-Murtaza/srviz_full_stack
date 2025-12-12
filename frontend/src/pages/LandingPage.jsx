@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import WhatsAppFloat from '../components/layout/WhatsAppFloat';
@@ -5,9 +6,20 @@ import HeroSection from '../components/sections/HeroSection';
 import FeaturedEvent from '../components/sections/FeaturedEvent';
 import TopEvents from '../components/sections/TopEvents';
 import useEvents from '../hooks/useEvents';
+import LeadModal from '../components/forms/LeadModal';
+
 
 function LandingPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { events, featuredEvent, loading, error } = useEvents();
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   if (loading) {
     return (
@@ -40,17 +52,22 @@ function LandingPage() {
 
   return (
     <div className="LandingPage">
-      <Navbar/>
+      <Navbar onContactClick={handleOpenModal}/>
       
       <main>
-        <HeroSection/>
+        <HeroSection onContactClick={handleOpenModal}/>
         <FeaturedEvent event={featuredEvent} />
         <TopEvents events={events} />
       </main>
 
       <Footer />
       <WhatsAppFloat />
-      
+
+      <LeadModal
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal}
+        events={events}
+      />
     </div>
   );
 }
