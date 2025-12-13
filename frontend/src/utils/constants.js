@@ -14,7 +14,7 @@ export const LEAD_STATUS = {
     { name: 'Contact', href: '#contact' },
   ];
   
-  export const WHATSAPP_NUMBER = '+917827250606';
+  export const WHATSAPP_NUMBER = '+917053371127';
   
   export const SOCIAL_LINKS = {
     facebook: 'https://facebook.com',
