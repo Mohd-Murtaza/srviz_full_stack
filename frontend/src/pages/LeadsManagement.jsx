@@ -25,7 +25,17 @@ const LeadsManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
 
-  const statuses = ['All', 'New', 'Contacted', 'Quote Sent', 'Interested', 'Closed Won', 'Closed Lost'];
+  const statuses = ['All', 'new', 'contacted', 'quote_sent', 'qualified', 'converted', 'lost'];
+  
+  // Status display mapping
+  const statusLabels = {
+    'new': 'New',
+    'contacted': 'Contacted',
+    'quote_sent': 'Quote Sent',
+    'qualified': 'Qualified',
+    'converted': 'Converted',
+    'lost': 'Lost'
+  };
 
   useEffect(() => {
     fetchLeads();
@@ -176,7 +186,7 @@ const LeadsManagement = () => {
             >
               {statuses.map((status) => (
                 <option key={status} value={status}>
-                  {status === 'All' ? 'All Status' : status}
+                  {status === 'All' ? 'All Status' : statusLabels[status] || status}
                 </option>
               ))}
             </select>
@@ -222,20 +232,20 @@ const LeadsManagement = () => {
                   <td className="py-4 px-6">
                     <span
                       className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                        lead.status === 'New'
+                        lead.status === 'new'
                           ? 'bg-blue-100 text-blue-800'
-                          : lead.status === 'Contacted'
+                          : lead.status === 'contacted'
                           ? 'bg-yellow-100 text-yellow-800'
-                          : lead.status === 'Quote Sent'
+                          : lead.status === 'quote_sent'
                           ? 'bg-purple-100 text-purple-800'
-                          : lead.status === 'Interested'
-                          ? 'bg-green-100 text-green-800'
-                          : lead.status === 'Closed Won'
+                          : lead.status === 'qualified'
+                          ? 'bg-orange-100 text-orange-800'
+                          : lead.status === 'converted'
                           ? 'bg-emerald-100 text-emerald-800'
                           : 'bg-red-100 text-red-800'
                       }`}
                     >
-                      {lead.status}
+                      {statusLabels[lead.status] || lead.status}
                     </span>
                   </td>
                   <td className="py-4 px-6 text-sm text-gray-600">

@@ -15,6 +15,7 @@ const LeadForm = ({ events = [], selectedEvent = null, selectedPackage = null, o
     phone: '',
     message: '',
     event: selectedEvent?._id || '',
+    package: selectedPackage?._id || '',
     numberOfTravellers: 1,
     preferredDate: selectedEvent?.startDate ? new Date(selectedEvent.startDate).toISOString().split('T')[0] : '',
   });
@@ -127,6 +128,9 @@ const LeadForm = ({ events = [], selectedEvent = null, selectedPackage = null, o
       if (formData.event) {
         submitData.event = formData.event;
       }
+      if (formData.package) {
+        submitData.package = formData.package;
+      }
       if (formData.preferredDate) {
         submitData.preferredDate = formData.preferredDate;
       }
@@ -143,6 +147,7 @@ const LeadForm = ({ events = [], selectedEvent = null, selectedPackage = null, o
         phone: '',
         message: '',
         event: '',
+        package: '',
         numberOfTravellers: 1,
         preferredDate: '',
       });

@@ -60,6 +60,23 @@ const quoteSchema = new mongoose.Schema({
   validUntil: {
     type: Date,
     required: [true, 'Valid until date is required']
+  },
+  emailSent: {
+    type: Boolean,
+    default: false
+  },
+  emailSentAt: {
+    type: Date,
+    default: null
+  },
+  userResponse: {
+    type: String,
+    enum: ['pending', 'accepted', 'declined'],
+    default: 'pending'
+  },
+  userResponseAt: {
+    type: Date,
+    default: null
   }
 }, {
   timestamps: true

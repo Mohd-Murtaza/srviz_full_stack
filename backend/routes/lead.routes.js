@@ -1,10 +1,13 @@
 import express from 'express';
-import { createLead, getAllLeads, getLeadById, updateLeadStatus } from '../controllers/lead.controller.js';
+import { createLead, getAllLeads, getLeadById, updateLeadStatus, getActionableLeads } from '../controllers/lead.controller.js';
 
 const router = express.Router();
 
 // Create a new lead
 router.post('/', createLead);
+
+// Get actionable leads (new/contacted only) for quote generation
+router.get('/actionable', getActionableLeads);
 
 // Get all leads with pagination and filters
 router.get('/', getAllLeads);

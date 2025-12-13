@@ -1,10 +1,10 @@
 export const LEAD_STATUS = {
-    NEW: 'New',
-    CONTACTED: 'Contacted',
-    QUOTE_SENT: 'Quote Sent',
-    INTERESTED: 'Interested',
-    CLOSED_WON: 'Closed Won',
-    CLOSED_LOST: 'Closed Lost',
+    NEW: 'new',
+    CONTACTED: 'contacted',
+    QUOTE_SENT: 'quote_sent',
+    QUALIFIED: 'qualified',
+    CONVERTED: 'converted',
+    LOST: 'lost',
   };
   
   export const NAVIGATION_LINKS = [

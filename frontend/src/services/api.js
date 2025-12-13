@@ -28,12 +28,14 @@ export const eventsAPI = {
 export const leadsAPI = {
     create: (data) => api.post('/leads', data),
     getAll: (params) => api.get('/leads', { params }),
+    getActionable: (params) => api.get('/leads/actionable', { params }), // New/Contacted leads only
     getById: (id) => api.get(`/leads/${id}`),
     updateStatus: (id, data) => api.patch(`/leads/${id}`, data),
 };
 
 export const quotesAPI = {
     generate: (data) => api.post('/quotes/generate', data),
+    sendEmail: (quoteId) => api.post(`/quotes/${quoteId}/send-email`),
 };
 
 export const healthAPI = {

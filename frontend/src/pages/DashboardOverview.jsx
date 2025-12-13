@@ -68,8 +68,8 @@ const DashboardOverview = () => {
         
         setStats({
           totalLeads: leadsData.length,
-          newLeads: leadsData.filter(l => l.status === 'New').length,
-          quotesGenerated: leadsData.filter(l => l.status === 'Quote Sent').length,
+          newLeads: leadsData.filter(l => l.status === 'new').length,
+          quotesGenerated: leadsData.filter(l => l.status === 'quote_sent').length,
           activeEvents: eventsResponse.data?.length || 0,
         });
       }
@@ -287,20 +287,20 @@ const DashboardOverview = () => {
                   <td className="py-3 px-4">
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        lead.status === 'New'
+                        lead.status === 'new'
                           ? 'bg-blue-100 text-blue-800'
-                          : lead.status === 'Contacted'
+                          : lead.status === 'contacted'
                           ? 'bg-yellow-100 text-yellow-800'
-                          : lead.status === 'Quote Sent'
+                          : lead.status === 'quote_sent'
                           ? 'bg-purple-100 text-purple-800'
-                          : lead.status === 'Interested'
-                          ? 'bg-green-100 text-green-800'
-                          : lead.status === 'Closed Won'
+                          : lead.status === 'qualified'
+                          ? 'bg-orange-100 text-orange-800'
+                          : lead.status === 'converted'
                           ? 'bg-emerald-100 text-emerald-800'
                           : 'bg-red-100 text-red-800'
                       }`}
                     >
-                      {lead.status}
+                      {lead.status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                     </span>
                   </td>
                   <td className="py-3 px-4 text-sm text-gray-600">

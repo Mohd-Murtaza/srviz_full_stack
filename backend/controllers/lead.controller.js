@@ -7,7 +7,7 @@ import { createStatusHistory, isValidStatusTransition } from '../services/leadWo
 // Create a new lead
 export const createLead = async (req, res) => {
     try {
-      const { name, email, phone, message, event, numberOfTravellers, preferredDate } = req.body;
+      const { name, email, phone, message, event, numberOfTravellers, preferredDate, package: packageId } = req.body;
       
       // Validation
       if (!name || !email || !phone) {
@@ -88,6 +88,7 @@ export const createLead = async (req, res) => {
         phone,
         message,
         event: event || null,
+        package: packageId || null,
         numberOfTravellers: numberOfTravellers || 1,
         preferredDate: preferredDate || null,
         status: LEAD_STATUS.NEW
@@ -96,8 +97,8 @@ export const createLead = async (req, res) => {
       // Create status history
       await createStatusHistory(lead._id, null, LEAD_STATUS.NEW, 'system', 'Lead created');
       
-      // Populate event if exists
-      await lead.populate('event');
+      // Populate event and package if exists
+      await lead.populate(['event', 'package']);
       
       return res.status(201).json(successResponse(lead, 'Lead created successfully'));
       
@@ -156,6 +157,7 @@ export const getAllLeads = async (req, res) => {
       const [leads, total] = await Promise.all([
         Lead.find(filter)
           .populate('event', 'name location startDate')
+          .populate('package', 'name basePrice')
           .sort({ createdAt: -1 })
           .skip(skip)
           .limit(limitNum)
@@ -186,7 +188,10 @@ export const getLeadById = async (req, res) => {
     try {
       const { id } = req.params;
       
-      const lead = await Lead.findById(id).populate('event').lean();
+      const lead = await Lead.findById(id)
+      .populate('event')
+      .populate('package')
+      .lean();
       
       if (!lead) {
         return res.status(404).json(notFoundResponse('Lead'));
@@ -199,7 +204,65 @@ export const getLeadById = async (req, res) => {
       return res.status(500).json(errorResponse('Failed to fetch lead', error.message));
     }
   };
+
+// Get actionable leads (only 'new' and 'contacted' status) for quote generation
+export const getActionableLeads = async (req, res) => {
+    try {
+      const {
+        page = PAGINATION.DEFAULT_PAGE,
+        limit = PAGINATION.DEFAULT_LIMIT,
+        search = '' // Search by name or email
+      } = req.query;
   
+      // Build filter for actionable statuses
+      const filter = {
+        status: { $in: [LEAD_STATUS.NEW, LEAD_STATUS.CONTACTED] }
+      };
+  
+      // Add search functionality
+      if (search.trim()) {
+        const searchRegex = new RegExp(search.trim(), 'i');
+        filter.$or = [
+          { name: searchRegex },
+          { email: searchRegex }
+        ];
+      }
+  
+      // Calculate pagination
+      const pageNum = parseInt(page);
+      const limitNum = parseInt(limit);
+      const skip = (pageNum - 1) * limitNum;
+  
+      // Fetch leads with pagination
+      const [leads, totalCount] = await Promise.all([
+        Lead.find(filter)
+          .populate('event', 'name location startDate endDate') // Populate event details
+          .populate('package', 'name basePrice') // Populate package details
+          .sort({ createdAt: -1 })
+          .skip(skip)
+          .limit(limitNum),
+        Lead.countDocuments(filter)
+      ]);
+  
+      // Pagination metadata
+      const totalPages = Math.ceil(totalCount / limitNum);
+      const pagination = {
+        currentPage: pageNum,
+        totalPages,
+        totalCount,
+        pageSize: limitNum,
+        hasNextPage: pageNum < totalPages,
+        hasPrevPage: pageNum > 1
+      };
+  
+      return res.status(200).json(successResponse({ leads, pagination }, 'Actionable leads retrieved successfully'));
+  
+    } catch (error) {
+      console.error('Error fetching actionable leads:', error);
+      return res.status(500).json(errorResponse('Failed to fetch actionable leads', error.message));
+    }
+  };
+
   // Update lead status
 export const updateLeadStatus = async (req, res) => {
     try {
