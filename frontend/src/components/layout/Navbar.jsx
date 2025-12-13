@@ -21,7 +21,7 @@ const Navbar = ({ onContactClick }) => {
       document.body.style.overflow = 'unset';
     };
   }, [isMobileMenuOpen]);
-  
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);

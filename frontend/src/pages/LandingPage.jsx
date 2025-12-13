@@ -5,6 +5,12 @@ import WhatsAppFloat from '../components/layout/WhatsAppFloat';
 import HeroSection from '../components/sections/HeroSection';
 import FeaturedEvent from '../components/sections/FeaturedEvent';
 import TopEvents from '../components/sections/TopEvents';
+import WhyChooseUs from '../components/sections/WhyChooseUs';
+import HowItWorks from '../components/sections/HowItWorks';
+import SampleItinerary from '../components/sections/SampleItinerary';
+import AddOnsSection from '../components/sections/AddOnsSection';
+import Testimonials from '../components/sections/Testimonials';
+import FAQ from '../components/sections/FAQ';
 import useEvents from '../hooks/useEvents';
 import LeadModal from '../components/forms/LeadModal';
 
@@ -58,6 +64,12 @@ function LandingPage() {
         <HeroSection onContactClick={handleOpenModal}/>
         <FeaturedEvent event={featuredEvent} />
         <TopEvents events={events} />
+        <WhyChooseUs />
+        <HowItWorks />
+        <SampleItinerary />
+        <AddOnsSection />
+        <Testimonials />
+        <FAQ />
       </main>
 
       <Footer />
